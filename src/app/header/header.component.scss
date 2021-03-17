@@ -1,0 +1,20 @@
+h1 {
+	margin: 0px;
+}
+
+.grid-container {
+	background-color: lightgray;
+	display: grid;
+	grid-template-columns: 1.4fr 0.6fr;
+	grid-template-rows: 1fr;
+	gap: 0px 0px;
+	grid-template-areas: "title nav";
+}
+
+.title {
+	grid-area: title;
+}
+.nav {
+	grid-area: nav;
+	padding: 10px;
+}
