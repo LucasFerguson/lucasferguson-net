@@ -1,10 +1,12 @@
 .page {
-	background-color: rgb(194, 194, 194);
+	// background-color: rgb(194, 194, 194);
 	height: 60%;
 	padding-top: 100px;
 }
 
 .box {
+	z-index: 100;
+
 	background-color: rgba(44, 131, 218, 0.6);
 	color: white;
 	margin: 0 auto;
@@ -37,4 +39,8 @@
 }
 
 .myCanvasClass {
+	z-index: -1;
+
+	position: absolute;
+	outline-style: auto;
 }
