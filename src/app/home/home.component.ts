@@ -3,6 +3,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Inject } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { AfterViewInit } from '@angular/core';
+
 @Component({
 	selector: 'app-home',
 	templateUrl: './home.component.html',
