@@ -14,18 +14,18 @@ export class HomeComponent implements AfterViewInit {
 
 	ngAfterViewInit() {
 
-		if (!this.canvas) {
+		if (this.canvas != undefined) {
 
-			var ctx: CanvasRenderingContext2D = this.canvas.nativeElement.getContext("2d");
+			var ctx: CanvasRenderingContext2D | null = this.canvas.nativeElement.getContext("2d");
 
-			ctx.canvas.width = window.innerWidth;
-			ctx.canvas.height = window.innerHeight;
-			ctx.beginPath();
-			ctx.arc(95, 50, 40, 0, 2 * Math.PI);
-			ctx.stroke();
-			console.log();
-
-
+			if (ctx != null) {
+				ctx.canvas.width = window.innerWidth;
+				ctx.canvas.height = window.innerHeight;
+				ctx.beginPath();
+				ctx.arc(95, 50, 40, 0, 2 * Math.PI);
+				ctx.stroke();
+				console.log();
+			}
 
 		}
 	}
