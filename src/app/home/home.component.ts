@@ -11,23 +11,23 @@ import { AfterViewInit } from '@angular/core';
 })
 export class HomeComponent implements AfterViewInit {
 
-	@ViewChild("myCanvas") canvas: ElementRef<HTMLCanvasElement> | undefined;
+	// @ViewChild("myCanvas") canvas: ElementRef<HTMLCanvasElement> | undefined;
 
 	ngAfterViewInit() {
 
-		if (this.canvas != undefined) {
+		// if (this.canvas != undefined) {
 
-			var ctx: CanvasRenderingContext2D | null = this.canvas.nativeElement.getContext("2d");
+		// 	var ctx: CanvasRenderingContext2D | null = this.canvas.nativeElement.getContext("2d");
 
-			if (ctx != null) {
-				ctx.canvas.width = window.innerWidth;
-				ctx.canvas.height = window.innerHeight;
-				ctx.beginPath();
-				ctx.arc(95, 50, 40, 0, 2 * Math.PI);
-				ctx.stroke();
-				console.log();
-			}
+		// 	if (ctx != null) {
+		// 		ctx.canvas.width = window.innerWidth;
+		// 		ctx.canvas.height = window.innerHeight;
+		// 		ctx.beginPath();
+		// 		ctx.arc(95, 50, 40, 0, 2 * Math.PI);
+		// 		ctx.stroke();
+		// 		console.log();
+		// 	}
 
-		}
+		// }
 	}
 }
