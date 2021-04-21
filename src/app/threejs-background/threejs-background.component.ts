@@ -1,6 +1,5 @@
 import { AfterViewInit } from '@angular/core';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import * as THREE from 'three';
 
 @Component({
   selector: 'app-threejs-background',
@@ -10,21 +9,10 @@ import * as THREE from 'three';
 
 export class ThreejsBackgroundComponent implements AfterViewInit {
   @ViewChild("myCanvas") canvas: ElementRef<HTMLCanvasElement> | undefined;
-  htmlCanvasElement: HTMLCanvasElement;
-
-  sizes = {
-    width: window.innerWidth,
-    height: window.innerHeight
-  };
-
-  scene!: THREE.Scene;
-  camera!: THREE.PerspectiveCamera;
-  renderer!: THREE.WebGLRenderer;
-  clock!: THREE.Clock;
-  sphere!: THREE.Mesh<THREE.TorusGeometry, THREE.MeshBasicMaterial>;
+  htmlCanvasElement!: HTMLCanvasElement;
 
   constructor() {
-    this.htmlCanvasElement = new HTMLCanvasElement();
+
   }
 
   ngAfterViewInit() {
@@ -37,61 +25,112 @@ export class ThreejsBackgroundComponent implements AfterViewInit {
     }
   }
 
-  setup() {
-
-
-    this.scene = new THREE.Scene();
-    this.camera = new THREE.PerspectiveCamera(75, this.sizes.width / this.sizes.height, 0.1, 100);
-    this.camera.position.x = 0
-    this.camera.position.y = 0
-    this.camera.position.z = 2
-    this.renderer = new THREE.WebGLRenderer({
-      canvas: this.htmlCanvasElement
-    })
-    this.clock = new THREE.Clock();
-
-    this.renderer.setSize(this.sizes.width, this.sizes.height)
-    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
-
-
-    // Objects
-    const geometry = new THREE.TorusGeometry(.7, .2, 16, 100);
-
-    // Materials
-
-    const material = new THREE.MeshBasicMaterial()
-    material.color = new THREE.Color(0xff0000)
-
-    // Mesh
-    this.sphere = new THREE.Mesh(geometry, material)
-    this.scene.add(this.sphere)
-
-    // Lights
-
-    const pointLight = new THREE.PointLight(0xffffff, 0.1)
-    pointLight.position.x = 2
-    pointLight.position.y = 3
-    pointLight.position.z = 4
-    this.scene.add(pointLight)
-    // this.renderer.render(this.scene, this.camera);
-
-    this.loop();
-  }
-
-  loop() {
-
-    const elapsedTime = this.clock.getElapsedTime();
-    this.sphere.rotation.y = .5 * elapsedTime;
-
-    // Render
-    this.renderer.render(this.scene, this.camera);
-
-    window.requestAnimationFrame(this.loop);
-  }
-
   ngOnInit(): void {
-
-
   }
-
 }
+
+
+
+import './style.css'
+import * as THREE from 'three'
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
+import * as dat from 'dat.gui'
+
+// Debug
+const gui = new dat.GUI()
+
+// Canvas
+const canvas = document.querySelector('canvas.webgl')
+
+// Scene
+const scene = new THREE.Scene()
+
+// Objects
+const geometry = new THREE.TorusGeometry(.7, .2, 16, 100);
+
+// Materials
+
+const material = new THREE.MeshBasicMaterial()
+material.color = new THREE.Color(0xff0000)
+
+// Mesh
+const sphere = new THREE.Mesh(geometry, material)
+scene.add(sphere)
+
+// Lights
+
+const pointLight = new THREE.PointLight(0xffffff, 0.1)
+pointLight.position.x = 2
+pointLight.position.y = 3
+pointLight.position.z = 4
+scene.add(pointLight)
+
+/**
+ * Sizes
+ */
+const sizes = {
+  width: window.innerWidth,
+  height: window.innerHeight
+}
+
+window.addEventListener('resize', () => {
+  // Update sizes
+  sizes.width = window.innerWidth
+  sizes.height = window.innerHeight
+
+  // Update camera
+  camera.aspect = sizes.width / sizes.height
+  camera.updateProjectionMatrix()
+
+  // Update renderer
+  renderer.setSize(sizes.width, sizes.height)
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+})
+
+/**
+ * Camera
+ */
+// Base camera
+const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
+camera.position.x = 0
+camera.position.y = 0
+camera.position.z = 2
+scene.add(camera)
+
+// Controls
+// const controls = new OrbitControls(camera, canvas)
+// controls.enableDamping = true
+
+/**
+ * Renderer
+ */
+const renderer = new THREE.WebGLRenderer({
+  canvas: canvas
+})
+renderer.setSize(sizes.width, sizes.height)
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+
+/**
+ * Animate
+ */
+
+const clock = new THREE.Clock()
+
+const tick = () => {
+
+  const elapsedTime = clock.getElapsedTime()
+
+  // Update objects
+  sphere.rotation.y = .5 * elapsedTime
+
+  // Update Orbital Controls
+  // controls.update()
+
+  // Render
+  renderer.render(scene, camera)
+
+  // Call tick again on the next frame
+  window.requestAnimationFrame(tick)
+}
+
+tick()
